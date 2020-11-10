@@ -1,0 +1,26 @@
+@import '../../../styles/colors.scss';
+
+.navbar {
+  height: 70px;
+  background: #fff;
+  // box-shadow: 0 2px 4px $gray-light;
+  // margin-bottom: 0.5rem;
+  padding: 0 1rem;
+  display: flex;
+
+  align-items: center;
+
+  @media screen and (max-width: 768px) {
+    padding: 0 0.25rem;
+  }
+}
+
+.signIn {
+  min-width: 60px;
+  p {
+    font-size: 1.2rem;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+}

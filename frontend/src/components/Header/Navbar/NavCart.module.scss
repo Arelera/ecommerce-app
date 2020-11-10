@@ -1,0 +1,27 @@
+@import '../../../styles/colors.scss';
+
+.cart {
+  position: relative;
+  height: 100%;
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .button {
+    font-weight: 600;
+    color: $gray-darkx;
+    height: 100%;
+    width: 100%;
+    background: transparent;
+    border: none;
+    img {
+      width: 100%;
+    }
+    p {
+      position: absolute;
+      left: 35%;
+      font-size: 1rem;
+      top: 7px;
+    }
+  }
+}

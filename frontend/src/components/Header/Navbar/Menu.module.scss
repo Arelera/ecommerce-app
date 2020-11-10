@@ -1,0 +1,61 @@
+@import '../../../styles/colors.scss';
+
+.div {
+  height: 100%;
+  z-index: 10;
+  position: relative;
+  top: 15px;
+}
+
+.menu {
+  height: 40px;
+  width: 40px;
+  border: none;
+  border-radius: 5px 0 0 5px;
+  background: $gray-lightx;
+  margin-right: -40px;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    height: 80%;
+  }
+}
+
+.dropdown {
+  position: absolute;
+  width: 120px;
+  border-radius: 0 0 0 5px;
+  background: $gray-lightx;
+
+  .category {
+    position: relative;
+
+    .button {
+      color: $gray-darkx;
+      width: 100%;
+      background: #fff;
+      padding: 0.5rem;
+
+      border: none;
+      font-size: 0.9rem;
+      box-shadow: 0px 2px 5px #aaa;
+      &:hover {
+        background: $gray-lightx;
+      }
+    }
+
+    .subcategories {
+      position: absolute;
+      background: #fff;
+      z-index: 15;
+      left: 100%;
+      top: 0;
+      .button {
+        font-size: 1rem;
+        padding: 0.5rem 2rem;
+      }
+    }
+  }
+}

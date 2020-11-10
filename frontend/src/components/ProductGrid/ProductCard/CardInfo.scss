@@ -1,0 +1,55 @@
+@import '../../../styles/colors.scss';
+
+.cardInfo {
+  padding: 0 1rem;
+
+  p,
+  h3 {
+    color: $gray-darkx;
+  }
+
+  .price {
+    letter-spacing: -2px;
+    font-size: 2rem;
+    font-weight: 600;
+
+    span {
+      font-size: 1.25rem;
+      line-height: 2.5rem; /** to make vertical-align not go too high */
+      vertical-align: top;
+      font-weight: 500;
+      color: $gray-dark;
+    }
+  }
+
+  /* product name */
+  h3 {
+    font-size: 1.05rem;
+    font-weight: 400;
+    margin-bottom: 5rem;
+
+    /** these 5 lines are for that ellipsis "..." */
+    /* text-overflow: ellipsis; */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  /* stars */
+  div {
+    position: absolute;
+    bottom: 1rem;
+    font-size: 1rem;
+    color: $golden;
+    .star {
+      // unfortunately i had to edit the svgs directly to apply color
+      // i tried alot of stuff, no idea why i cant edit them from here
+      height: 16px;
+    }
+  }
+}
