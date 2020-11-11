@@ -1,24 +1,29 @@
-import faker from 'faker';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import faker from 'faker';
+
 import CategoryPage from './components/CategoryPage/CategoryPage';
 import Header from './components/Header/Header';
+import SubMenu from './components/Header/SubMenu';
 import ProductGrid from './components/ProductGrid/ProductGrid';
+import SigninPage from './components/SigninPage/SigninPage';
 
 function App() {
   return (
     <Router>
-      <div>
+      <div style={{ height: '100vh' }}>
         <Header />
         <Switch>
           <Route exact path="/">
-            <Route exact path="/:category" component={CategoryPage} />
-            <Route
-              exact
-              path="/:category/:subcategory"
-              component={CategoryPage}
-            />
-            <ProductGrid products={getFakeProducts(8)} />
+            <SubMenu />
+            <ProductGrid products={getFakeProducts(10)} />
           </Route>
+          <Route exact path="/sign-in" component={SigninPage} />
+          <Route exact path="/:category" component={CategoryPage} />
+          <Route
+            exact
+            path="/:category/:subcategory"
+            component={CategoryPage}
+          />
         </Switch>
       </div>
     </Router>

@@ -14,7 +14,6 @@ export default function Menu() {
   };
 
   const goTo = (cat, subcat) => {
-    console.log('CAT: ', cat);
     const cleanCat = cleanForUrl(cat);
     const cleanSubcat = subcat && cleanForUrl(subcat);
     subcat

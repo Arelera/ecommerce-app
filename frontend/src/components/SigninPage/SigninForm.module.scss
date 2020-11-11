@@ -1,0 +1,45 @@
+@import '../../styles/colors.scss';
+
+.form {
+  font-size: 1.2rem;
+  color: $gray-darkx;
+  label {
+    p {
+      margin-top: 0.5rem;
+    }
+    input {
+      font-size: 0.95rem;
+      padding: 0.5rem;
+      width: 100%;
+      border: none;
+      border-radius: 5px;
+      background: $gray-light;
+      outline: none;
+      &:focus {
+        box-shadow: 0px 2px 5px $gray-mid;
+      }
+    }
+  }
+  button {
+    margin-top: 1rem;
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: none;
+    background: transparent;
+    box-shadow: 0px 2px 5px $gray-mid;
+    font-weight: 600;
+  }
+}
+.signupLink {
+  width: 100%;
+  button {
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0;
+    box-shadow: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

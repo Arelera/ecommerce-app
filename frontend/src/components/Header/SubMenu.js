@@ -4,17 +4,26 @@ import categories from '../categories';
 
 export default function SubMenu() {
   const urlCategory = useParams().category;
-  const cleanCategory = (c) => c.toLowerCase().replaceAll(/ +/g, '-');
+  const cleanForUrl = (c) => c.toLowerCase().replaceAll(/ +/g, '-');
 
   const subcategories = categories.find(
-    (cat) => cleanCategory(cat.name) === urlCategory
-  ).subcategories;
+    (cat) => cleanForUrl(cat.name) === urlCategory
+  )?.subcategories;
 
   return (
     <div className={S.submenu}>
-      {subcategories.map((subcat) => (
-        <Link to={`/${urlCategory}/${subcat}`}>{subcat}</Link>
-      ))}
+      {urlCategory
+        ? subcategories.map((subcat, i) => (
+            <Link key={i} to={`/${urlCategory}/${cleanForUrl(subcat)}`}>
+              {subcat}
+            </Link>
+          ))
+        : categories.map((cat, i) => (
+            <Link key={i} to={`${cleanForUrl(cat.name)}`}>
+              {cat.name}
+            </Link>
+          ))}
+      {}
     </div>
   );
 }

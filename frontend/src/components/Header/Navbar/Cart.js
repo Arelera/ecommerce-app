@@ -1,28 +1,32 @@
 import S from './Cart.module.scss';
 import faker from 'faker';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
 
 export default function Cart() {
   // will get products and amount from store
   // const productsInCart = useSelector(state => state.productsInCart)
+  const [cartProducts, setCartProducts] = useState(getFakeProducts(4));
 
   return (
     <div className={S.cart}>
       <div className={S.top}>
         <h2>My Cart</h2>
         <Link to="checkout">Checkout</Link>
-        <h2>523$</h2>
+        <h2>
+          {cartProducts.reduce((acc, { price }) => acc + Number(price), 0)}$
+        </h2>
       </div>
 
-      {getFakeProducts(6).map((prod) => (
+      {cartProducts.map((prod) => (
         <div className={S.cartItem}>
-          <img className={S.prodImg} src={faker.image.nature()} />
+          <img className={S.prodImg} src={prod.imgUrl} />
           <div className={S.prodInfo}>
             <Link to="">
               <h3>{faker.commerce.productDescription()}</h3>
             </Link>
             <input className={S.amount} type="text" placeholder="Amount" />
-            <p className={S.price}>1502$</p>
+            <p className={S.price}>{prod.price}</p>
           </div>
         </div>
       ))}

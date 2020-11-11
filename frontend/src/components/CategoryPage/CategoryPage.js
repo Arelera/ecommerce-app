@@ -9,8 +9,6 @@ export default function CategoryPage() {
   // const subcategory = params.subcategory;
   // search DB by category and subcategory then give those as products
 
-  // this component is not displaying right now, it was just working
-  // idk what i changed
   return (
     <div>
       <SubMenu />
