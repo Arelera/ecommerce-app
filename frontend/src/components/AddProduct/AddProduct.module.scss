@@ -15,7 +15,8 @@
     p {
       margin-top: 0.5rem;
     }
-    input,
+    input[type='text'],
+    input[type='number'],
     textarea {
       font-size: 0.95rem;
 
@@ -56,5 +57,23 @@
     &:hover {
       text-decoration: underline;
     }
+  }
+}
+
+.radioGroups {
+  display: flex;
+}
+
+.radioGroup {
+  text-align: left;
+  &:first-child {
+    flex-basis: 50%;
+  }
+
+  p {
+    margin-top: 1rem;
+  }
+  label {
+    display: block;
   }
 }

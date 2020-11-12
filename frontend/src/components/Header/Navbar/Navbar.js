@@ -4,9 +4,10 @@ import Menu from './Menu';
 import SearchBar from './SearchBar';
 import Cart from './NavCart';
 import S from './Navbar.module.scss';
+import { useState } from 'react';
 
 export default function Navbar() {
-  const isSignedin = true;
+  const [isSignedin, setIsSignedin] = useState(false);
 
   return (
     <nav className={S.navbar}>

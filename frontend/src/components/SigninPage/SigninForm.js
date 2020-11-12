@@ -4,9 +4,9 @@ export default function SigninForm({ handleFormSubmit, setSignin }) {
   return (
     <form onSubmit={handleFormSubmit} className={S.form}>
       <h2>Sign in</h2>
-      <label>
-        <p>Email</p>
-        <input type="email" name="email" required />
+      <label onSubmit={handleFormSubmit}>
+        <p>Username</p>
+        <input type="text" name="username" required />
       </label>
       <label>
         <p>Password</p>
