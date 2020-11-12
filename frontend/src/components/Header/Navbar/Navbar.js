@@ -6,15 +6,24 @@ import Cart from './NavCart';
 import S from './Navbar.module.scss';
 
 export default function Navbar() {
+  const isSignedin = true;
+
   return (
     <nav className={S.navbar}>
       <Logo />
       <Menu />
       <SearchBar />
       <div className={S.signIn}>
-        <Link to="/sign-in">
-          <p>Sign in</p>
-        </Link>
+        {isSignedin ? (
+          <div className={S.signoutadd}>
+            <Link to="/">Sign out</Link>
+            <Link to="/add-product">Add product</Link>
+          </div>
+        ) : (
+          <Link to="/sign-in">
+            <p>Sign in</p>
+          </Link>
+        )}
       </div>
       <Cart />
     </nav>

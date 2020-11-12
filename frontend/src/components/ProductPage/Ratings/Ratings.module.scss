@@ -1,0 +1,13 @@
+@import '../../../styles/colors.scss';
+
+.ratingsBox {
+  padding: 1rem;
+  box-shadow: 0px 2px 5px $gray-mid;
+  color: $gray-darkx;
+  border-radius: 10px;
+  display: flex;
+}
+
+.ratingsList {
+  flex-basis: 60%;
+}

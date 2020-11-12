@@ -3,8 +3,7 @@ import S from './SigninForm.module.scss';
 export default function SignupForm({ setSignin }) {
   return (
     <form className={S.form}>
-      {' '}
-      <h2>Sign in</h2>
+      <h2>Sign up</h2>
       <label>
         <p>Email</p>
         <input type="email" name="email" required />

@@ -18,8 +18,8 @@ export default function Cart() {
         </h2>
       </div>
 
-      {cartProducts.map((prod) => (
-        <div className={S.cartItem}>
+      {cartProducts.map((prod, i) => (
+        <div className={S.cartItem} key={i}>
           <img className={S.prodImg} src={prod.imgUrl} />
           <div className={S.prodInfo}>
             <Link to="">

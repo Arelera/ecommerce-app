@@ -1,0 +1,29 @@
+@import '../../../styles/colors.scss';
+
+.rating {
+  margin-bottom: 1.5rem;
+  .creator {
+    display: flex;
+    .stars {
+      margin-right: 0.5rem;
+    }
+  }
+  .date {
+    font-size: 0.95rem;
+    color: $gray-dark;
+  }
+}
+
+.ratingsTotal {
+}
+
+.stars {
+  bottom: 1rem;
+  font-size: 1rem;
+  color: $golden;
+  line-height: 1.25;
+  img {
+    vertical-align: bottom;
+    height: 18px;
+  }
+}
