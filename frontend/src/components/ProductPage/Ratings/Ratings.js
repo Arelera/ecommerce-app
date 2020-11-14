@@ -3,27 +3,19 @@ import RatingInput from './RatingInput';
 import S from './Ratings.module.scss';
 import RatingsSum from './RatingsSum';
 
-export default function Ratings() {
+export default function Ratings({ ratings }) {
+  const sorted = ratings.sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
   return (
     <div className={S.ratingsBox}>
-      <RatingsSum ratings={ratings1} />
+      <RatingsSum ratings={ratings} />
       <div className={S.ratingsList}>
         <RatingInput />
-        <Rating rating={rating()} />
-        <Rating rating={rating()} />
+        {sorted.map((rating) => (
+          <Rating key={rating.id} rating={rating} />
+        ))}
       </div>
     </div>
   );
 }
-
-const rating = () => ({
-  id: Math.round(Math.random() * 100),
-  creator: 'Bobbeyyy Gobbebby',
-  rating: Math.round(Math.random() * 500) / 100,
-  comment: 'Dam bro this is some sick product, i recommend buying it IMMEDIATELY. Thank you. Dam bro this is some sick product, i recommend buying it IMMEDIATELY. Thank you.Dam bro this is some sick product, i recommend buying it IMMEDIATELY. Thank you.Dam bro this is some sick product, i recommend buying it IMMEDIATELY. Thank you.'.substring(
-    0,
-    Math.round(Math.random() * 300)
-  ),
-  createdAt: new Date().toISOString().substring(0, 20),
-});
-const ratings1 = [rating(), rating(), rating()];

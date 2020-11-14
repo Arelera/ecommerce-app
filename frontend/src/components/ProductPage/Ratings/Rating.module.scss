@@ -4,8 +4,10 @@
   margin-bottom: 1.5rem;
   .creator {
     display: flex;
+    font-size: 0.95rem;
+    color: $gray-dark;
     .stars {
-      margin-right: 0.5rem;
+      width: 100px;
     }
   }
   .date {
@@ -14,8 +16,8 @@
   }
 }
 
-.ratingsTotal {
-}
+// .ratingsTotal {
+// }
 
 .stars {
   bottom: 1rem;

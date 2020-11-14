@@ -17,8 +17,8 @@ export default function Menu() {
     const cleanCat = cleanForUrl(cat);
     const cleanSubcat = subcat && cleanForUrl(subcat);
     subcat
-      ? history.push(`/${cleanCat}/${cleanSubcat}`)
-      : history.push(`/${cleanCat}`);
+      ? history.push(`/products/${cleanCat}/${cleanSubcat}`)
+      : history.push(`/products/${cleanCat}`);
   };
 
   return (

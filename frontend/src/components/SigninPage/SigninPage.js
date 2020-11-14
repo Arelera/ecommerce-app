@@ -2,10 +2,15 @@ import { useState } from 'react';
 import SigninForm from './SigninForm';
 import SignupForm from './SignupForm';
 import S from './SigninPage.module.scss';
+import { useDispatch, useSelector } from 'react-redux';
 
 import userService from '../../services/userService';
+import { signinUser, signupUser } from '../../reducers/userReducer';
+import { Redirect } from 'react-router-dom';
 
 export default function SigninPage() {
+  const dispatch = useDispatch();
+  const isSignedIn = useSelector((state) => !!state.user);
   const [signin, setSignin] = useState(true);
 
   const handleFormSubmit = (e) => {
@@ -13,9 +18,10 @@ export default function SigninPage() {
 
     if (signin) {
       const userToSend = {
-        email: e.target.email.value,
+        username: e.target.username.value,
         password: e.target.password.value,
       };
+      dispatch(signinUser(userToSend));
     } else {
       const userToSend = {
         username: e.target.username.value,
@@ -24,28 +30,29 @@ export default function SigninPage() {
         passwordRepeat: e.target.passwordRepeat.value,
       };
       if (userToSend.password !== userToSend.passwordRepeat) return;
-      userService.signupUser(userToSend).then((res) => {
-        window.localStorage.setItem('user', res);
-        // do some more stuff here maybe
-      });
+      dispatch(signupUser(userToSend));
     }
   };
 
   return (
     <div className={S.signinPage}>
-      <div className={S.formBox}>
-        {signin ? (
-          <SigninForm
-            setSignin={setSignin}
-            handleFormSubmit={handleFormSubmit}
-          />
-        ) : (
-          <SignupForm
-            setSignin={setSignin}
-            handleFormSubmit={handleFormSubmit}
-          />
-        )}
-      </div>
+      {isSignedIn ? (
+        <Redirect to="/" />
+      ) : (
+        <div className={S.formBox}>
+          {signin ? (
+            <SigninForm
+              setSignin={setSignin}
+              handleFormSubmit={handleFormSubmit}
+            />
+          ) : (
+            <SignupForm
+              setSignin={setSignin}
+              handleFormSubmit={handleFormSubmit}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 }

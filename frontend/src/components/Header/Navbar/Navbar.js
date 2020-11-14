@@ -1,13 +1,21 @@
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Logo from './Logo';
 import Menu from './Menu';
 import SearchBar from './SearchBar';
 import Cart from './NavCart';
 import S from './Navbar.module.scss';
-import { useState } from 'react';
+import { signoutUser } from '../../../reducers/userReducer';
 
 export default function Navbar() {
-  const [isSignedin, setIsSignedin] = useState(false);
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const [isSignedin, setIsSignedin] = useState(!!user);
+
+  useEffect(() => {
+    setIsSignedin(!!user);
+  }, [user]);
 
   return (
     <nav className={S.navbar}>
@@ -17,7 +25,9 @@ export default function Navbar() {
       <div className={S.signIn}>
         {isSignedin ? (
           <div className={S.signoutadd}>
-            <Link to="/">Sign out</Link>
+            <Link to="/" onClick={() => dispatch(signoutUser())}>
+              Sign out
+            </Link>
             <Link to="/add-product">Add product</Link>
           </div>
         ) : (

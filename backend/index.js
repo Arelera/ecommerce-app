@@ -5,12 +5,16 @@ const helmet = require('helmet');
 const path = require('path');
 
 const signupRouter = require('./routes/signup');
+const signinRouter = require('./routes/signin');
+const productsRouter = require('./routes/products');
 
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
 
 app.use('/sign-up', signupRouter);
+app.use('/sign-in', signinRouter);
+app.use('/products', productsRouter);
 
 app.use('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '/build/index.js'), (err) => {

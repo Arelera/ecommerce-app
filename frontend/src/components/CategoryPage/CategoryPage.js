@@ -21,6 +21,7 @@ const getFakeProducts = (num) => {
   const prods = [];
   while (prods.length < num) {
     prods.push({
+      id: Math.round(Math.random() * 10000),
       imgUrl: faker.image.nature(),
       price: faker.commerce.price(),
       name: faker.commerce.productDescription(),

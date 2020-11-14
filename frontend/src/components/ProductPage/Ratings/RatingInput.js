@@ -1,13 +1,25 @@
 import { useState } from 'react';
-import starsToDisplay from '../../stars/starsToDisplay';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import S from './RatingInput.module.scss';
+import starsToDisplay from '../../stars/starsToDisplay';
+import productService from '../../../services/productService';
 
 export default function RatingInput() {
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
+
+  const id = useParams().id;
+  const user = useSelector((state) => state.user);
+
   const handleSubmitRating = (e) => {
     e.preventDefault();
+    const obj = { rating, comment, user: user.id };
+    productService.rateProduct(id, obj).then((res) => {
+      console.log('Rated product: ', res);
+    });
   };
+
   return (
     <form className={S.form} onSubmit={handleSubmitRating}>
       <label>

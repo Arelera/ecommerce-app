@@ -7,7 +7,7 @@ export default function Rating({ rating }) {
     <div className={S.rating}>
       <div className={S.creator}>
         <div className={S.stars}>{starsToDisplay(rating.rating)}</div>
-        <p>{rating.creator}</p>
+        <p>{rating.username}</p>
       </div>
       <p className={S.date}>{cleanDate(rating.createdAt)}</p>
       <p>{rating.comment}</p>

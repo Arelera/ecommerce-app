@@ -11,6 +11,7 @@ router.post('/', async (req, res) => {
   const passwordHash = await bcrypt.hash(password, 10);
 
   try {
+    console.log('ADDING USER: ', { username, email, password });
     const response = await client.query(
       `
       INSERT INTO users (username, email, "passwordHash")
@@ -21,7 +22,6 @@ router.post('/', async (req, res) => {
     );
     const token = await jwt.sign(response.rows[0], JWT_SECRET);
 
-    console.log('Returned user: ', response.rows[0]);
     res.send({ ...response.rows[0], token });
   } catch (error) {
     console.log('ERROR: ', error);

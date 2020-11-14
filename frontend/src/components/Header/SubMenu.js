@@ -14,12 +14,15 @@ export default function SubMenu() {
     <div className={S.submenu}>
       {urlCategory
         ? subcategories.map((subcat, i) => (
-            <Link key={i} to={`/${urlCategory}/${cleanForUrl(subcat)}`}>
+            <Link
+              key={i}
+              to={`/products/${urlCategory}/${cleanForUrl(subcat)}`}
+            >
               {subcat}
             </Link>
           ))
         : categories.map((cat, i) => (
-            <Link key={i} to={`${cleanForUrl(cat.name)}`}>
+            <Link key={i} to={`/products/${cleanForUrl(cat.name)}`}>
               {cat.name}
             </Link>
           ))}

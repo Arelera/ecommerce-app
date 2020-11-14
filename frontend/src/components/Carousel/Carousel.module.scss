@@ -1,0 +1,27 @@
+.carousel {
+  position: relative;
+  max-width: 40%;
+}
+
+.leftBtn,
+.rightBtn {
+  color: #333;
+  height: 60px;
+  width: 30px;
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+.leftBtn {
+  position: absolute;
+  top: 40%;
+  left: 0;
+}
+
+.rightBtn {
+  position: absolute;
+  top: 40%;
+  right: 15px;
+}
