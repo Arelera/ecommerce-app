@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import S from './RatingInput.module.scss';
 import starsToDisplay from '../../stars/starsToDisplay';
 import productService from '../../../services/productService';
+import { rateProduct } from '../../../reducers/productsReducer';
 
 export default function RatingInput() {
+  const dispatch = useDispatch();
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
 
@@ -15,9 +17,9 @@ export default function RatingInput() {
   const handleSubmitRating = (e) => {
     e.preventDefault();
     const obj = { rating, comment, user: user.id };
-    productService.rateProduct(id, obj).then((res) => {
-      console.log('Rated product: ', res);
-    });
+    dispatch(rateProduct(id, obj));
+    setRating(5);
+    setComment('');
   };
 
   return (

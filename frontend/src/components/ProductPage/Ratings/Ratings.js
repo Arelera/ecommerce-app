@@ -11,7 +11,7 @@ export default function Ratings({ ratings }) {
     <div className={S.ratingsBox}>
       <RatingsSum ratings={ratings} />
       <div className={S.ratingsList}>
-        <RatingInput />
+        <RatingInput ratings={ratings} />
         {sorted.map((rating) => (
           <Rating key={rating.id} rating={rating} />
         ))}

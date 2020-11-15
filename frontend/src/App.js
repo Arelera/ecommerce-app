@@ -45,9 +45,9 @@ function App() {
             path="/products/:category/:subcategory"
             component={CategoryPage}
           />
-          {/* <Route path="/*">
+          <Route path="/*">
             <Redirect to="/" />
-          </Route> */}
+          </Route>
         </Switch>
       </div>
     </Router>

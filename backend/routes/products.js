@@ -1,6 +1,80 @@
 const router = require('express').Router();
 const client = require('../client');
 
+router.get('/', async (req, res) => {
+  try {
+    const response = await client.query(
+      `
+      SELECT p.id, name, description, images, price, category, subcategory, avg(rating) rating FROM products p
+      JOIN ratings r ON p.id = r.product
+      GROUP BY p.id 
+      `
+    );
+    res.send(response.rows);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send();
+  }
+});
+
+router.get('/search', async (req, res) => {
+  try {
+    const { query } = req.query;
+    console.log('QUERYY: ', query);
+    const response = await client.query(
+      `
+      SELECT p.id, name, description, images, price, category, subcategory, avg(rating) rating FROM products p
+      JOIN ratings r ON p.id = r.product
+      WHERE name ILIKE ('%' || $1 || '%')
+      GROUP BY p.id
+      `,
+      [query]
+    );
+    res.send(response.rows);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send();
+  }
+});
+
+router.get('/cat/:category', async (req, res) => {
+  try {
+    const category = req.params.category;
+    const response = await client.query(
+      `
+      SELECT p.id, name, description, images, price, category, subcategory, avg(rating) rating FROM products p
+      JOIN ratings r ON p.id = r.product
+      WHERE p.category = $1
+      GROUP BY p.id 
+      `,
+      [category]
+    );
+    res.send(response.rows);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send();
+  }
+});
+
+router.get('/subcat/:subcategory/', async (req, res) => {
+  try {
+    const subcategory = req.params.subcategory;
+    const response = await client.query(
+      `
+      SELECT p.id, name, description, images, price, category, subcategory, avg(rating) rating FROM products p
+      JOIN ratings r ON p.id = r.product
+      WHERE p.subcategory = $1
+      GROUP BY p.id 
+      `,
+      [subcategory]
+    );
+    res.send(response.rows);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send();
+  }
+});
+
 // get product by id, for the product page
 router.get('/:id', async (req, res) => {
   const { id } = req.params;

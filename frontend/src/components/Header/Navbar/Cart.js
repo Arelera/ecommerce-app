@@ -1,47 +1,44 @@
 import S from './Cart.module.scss';
-import faker from 'faker';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAmount } from '../../../reducers/cartReducer';
 
 export default function Cart() {
-  // will get products and amount from store
-  // const productsInCart = useSelector(state => state.productsInCart)
-  const [cartProducts, setCartProducts] = useState(getFakeProducts(4));
-
+  const dispatch = useDispatch();
+  const productsInCart = useSelector((store) => store.cart);
+  console.log('PRODS IN CART', productsInCart);
   return (
     <div className={S.cart}>
       <div className={S.top}>
         <h2>My Cart</h2>
-        <Link to="checkout">Checkout</Link>
+        <Link to="/checkout">Checkout</Link>
         <h2>
-          {cartProducts.reduce((acc, { price }) => acc + Number(price), 0)}$
+          {productsInCart.reduce(
+            (acc, [prod, amount]) => acc + Number(prod.price) * amount,
+            0
+          )}
+          $
         </h2>
       </div>
 
-      {cartProducts.map((prod, i) => (
-        <div className={S.cartItem} key={i}>
-          <img className={S.prodImg} src={prod.imgUrl} />
+      {productsInCart.map(([prod, amount]) => (
+        <div className={S.cartItem} key={prod.id}>
+          <img className={S.prodImg} src={prod.images[0][0]} />
           <div className={S.prodInfo}>
-            <Link to="">
-              <h3>{faker.commerce.productDescription()}</h3>
+            <Link to={`/products/${prod.id}`}>
+              <h3>{prod.name}</h3>
             </Link>
-            <input className={S.amount} type="text" placeholder="Amount" />
-            <p className={S.price}>{prod.price}</p>
+            <input
+              onChange={(e) => dispatch(setAmount(prod.id, e.target.value))}
+              className={S.amount}
+              value={amount}
+              type="text"
+              placeholder="Amount"
+            />
+            <p className={S.price}>{prod.price * amount}$</p>
           </div>
         </div>
       ))}
     </div>
   );
 }
-const getFakeProducts = (num) => {
-  const prods = [];
-  while (prods.length < num) {
-    prods.push({
-      imgUrl: faker.image.nature(),
-      price: faker.commerce.price(),
-      name: faker.commerce.productDescription(),
-      rating: Math.floor(Math.random() * 5 * 100) / 100,
-    });
-  }
-  return prods;
-};

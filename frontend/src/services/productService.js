@@ -4,14 +4,35 @@ import { imagesRef } from '../firebase/storage';
 
 const baseUrl = process.env.BASE_URL || 'http://localhost:3001';
 
-// for product page, so we need it's comments as well
+// for main page
+const getAll = async () => {
+  const response = await axios.get(`${baseUrl}/products`);
+  return response.data;
+};
+
+const getByQuery = async (query) => {
+  console.log('service GIVEN QUERY: ', query);
+  const response = await axios.get(`${baseUrl}/products/search`, {
+    params: { query },
+  });
+  return response.data;
+};
+
+// for product page, so we need it's ratings as well
 const getById = async (id) => {
   const response = await axios.get(`${baseUrl}/products/${id}`);
   return response.data;
 };
 
-const getByCategory = async (category) => {};
-const getBySubcategory = async (subcategory) => {};
+const getByCategory = async (category) => {
+  const response = await axios.get(`${baseUrl}/products/cat/${category}`);
+  return response.data;
+};
+
+const getBySubcategory = async (subcategory) => {
+  const response = await axios.get(`${baseUrl}/products/subcat/${subcategory}`);
+  return response.data;
+};
 
 const addProduct = async (product) => {
   const images = product.images;
@@ -46,7 +67,7 @@ const addProduct = async (product) => {
 };
 
 const rateProduct = async (id, obj) => {
-  // obj should have rater user and products id
+  // "obj" should have rating, comment and user
   const response = await axios.post(`${baseUrl}/products/${id}`, obj);
   return response.data;
 };
@@ -54,6 +75,8 @@ const rateProduct = async (id, obj) => {
 const getExt = (filename) => filename.split('.').pop();
 
 export default {
+  getAll,
+  getByQuery,
   getById,
   getByCategory,
   getBySubcategory,

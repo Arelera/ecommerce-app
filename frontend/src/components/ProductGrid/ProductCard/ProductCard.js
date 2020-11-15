@@ -6,7 +6,7 @@ export default function ProductCard({ product }) {
   return (
     <div className="productCard">
       <Link to={`/product/${product.id}`}>
-        <img src={product.imgUrl} className="productImg" alt=""></img>
+        <img src={product.images[0]} className="productImg" alt=""></img>
         <CardInfo product={product} />
       </Link>
     </div>

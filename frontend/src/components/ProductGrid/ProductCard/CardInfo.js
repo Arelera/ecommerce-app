@@ -10,7 +10,8 @@ export default function CardInfo({ product }) {
       </p>
       <h3>{product.name}</h3>
       <div>
-        {starsToDisplay(product.rating)} {product.rating}
+        {starsToDisplay(product.rating)}{' '}
+        {Math.round(product.rating * 100) / 100}
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ router.post('/', async (req, res) => {
   try {
     const response = await client.query(
       `
-    SELECT id, username, "passwordHash" FROM users
+    SELECT id, username, "passwordHash", products, ratings FROM users
     WHERE username = $1
     `,
       [username]
@@ -26,7 +26,13 @@ router.post('/', async (req, res) => {
 
     const token = await jwt.sign({ id: user.id, username }, JWT_SECRET);
 
-    res.send({ token, id: user.id, username: user.username });
+    res.send({
+      token,
+      id: user.id,
+      username: user.username,
+      products,
+      ratings,
+    });
   } catch (error) {
     console.log(error);
     res.status(400).send();

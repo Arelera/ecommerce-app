@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import faker from 'faker';
 import S from './ProductPage.module.scss';
 import starsToDisplay from '../stars/starsToDisplay';
 import Ratings from './Ratings/Ratings';
 import productService from '../../services/productService';
 import Loading from '../Loading';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../reducers/cartReducer';
 
 export default function ProductPage() {
+  const dispatch = useDispatch();
   const id = useParams().id;
   const [product, setProduct] = useState();
   const [ratings, setRatings] = useState([]);
@@ -26,8 +28,6 @@ export default function ProductPage() {
       });
   }, []);
 
-  const productF = getFakeProducts(1)[0];
-  // TODO: make the img display in to a carousel component
   return (
     <div className={S.productPage}>
       {isLoading ? (
@@ -44,30 +44,21 @@ export default function ProductPage() {
               </Link>
               <div className={S.ratings}>
                 <p className={S.stars}>{starsToDisplay(4)}</p>
-                <p>17 ratings</p>
+                <p>{ratings.length} ratings</p>
               </div>
               <p className={S.price}>{product.price}$</p>
               <p className={S.desc}>{product.description}</p>
+              <button
+                className={S.addCart}
+                onClick={() => dispatch(addToCart(product))}
+              >
+                Add to Cart
+              </button>
             </div>
           </div>
-          <Ratings ratings={ratings} />
+          <Ratings ratings={ratings} setRatings={setRatings} />
         </>
       )}
     </div>
   );
 }
-
-const getFakeProducts = (num) => {
-  const prods = [];
-  while (prods.length < num) {
-    prods.push({
-      id: Math.round(Math.random() * 10000),
-      imgUrl: faker.image.nature(),
-      price: faker.commerce.price(),
-      name: faker.commerce.productName(),
-      description: faker.commerce.productDescription(),
-      rating: Math.floor(Math.random() * 5 * 100) / 100,
-    });
-  }
-  return prods;
-};

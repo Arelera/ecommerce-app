@@ -10,8 +10,7 @@ export default function NavCart() {
     <>
       <div className={S.cart}>
         <button onClick={() => setCartVisible(true)} className={S.button}>
-          <img src={cartsvg} alt="" />
-          <p>Cart</p>
+          <img src={cartsvg} alt="Cart button" />
         </button>
       </div>
       {cartVisible && (
