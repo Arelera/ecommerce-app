@@ -6,7 +6,7 @@ router.get('/', async (req, res) => {
     const response = await client.query(
       `
       SELECT p.id, name, description, images, price, category, subcategory, avg(rating) rating FROM products p
-      JOIN ratings r ON p.id = r.product
+      LEFT JOIN ratings r ON p.id = r.product
       GROUP BY p.id 
       `
     );
@@ -20,11 +20,10 @@ router.get('/', async (req, res) => {
 router.get('/search', async (req, res) => {
   try {
     const { query } = req.query;
-    console.log('QUERYY: ', query);
     const response = await client.query(
       `
       SELECT p.id, name, description, images, price, category, subcategory, avg(rating) rating FROM products p
-      JOIN ratings r ON p.id = r.product
+      LEFT JOIN ratings r ON p.id = r.product
       WHERE name ILIKE ('%' || $1 || '%')
       GROUP BY p.id
       `,
@@ -43,7 +42,7 @@ router.get('/cat/:category', async (req, res) => {
     const response = await client.query(
       `
       SELECT p.id, name, description, images, price, category, subcategory, avg(rating) rating FROM products p
-      JOIN ratings r ON p.id = r.product
+      LEFT JOIN ratings r ON p.id = r.product
       WHERE p.category = $1
       GROUP BY p.id 
       `,
@@ -62,12 +61,13 @@ router.get('/subcat/:subcategory/', async (req, res) => {
     const response = await client.query(
       `
       SELECT p.id, name, description, images, price, category, subcategory, avg(rating) rating FROM products p
-      JOIN ratings r ON p.id = r.product
+      LEFT JOIN ratings r ON p.id = r.product
       WHERE p.subcategory = $1
       GROUP BY p.id 
       `,
       [subcategory]
     );
+    console.log(response.rows);
     res.send(response.rows);
   } catch (error) {
     console.log(error);

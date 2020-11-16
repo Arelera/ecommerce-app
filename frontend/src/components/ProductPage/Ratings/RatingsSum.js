@@ -11,9 +11,11 @@ export default function RatingsSum({ ratings }) {
   return (
     <div className={S.ratingsSum}>
       <h2>Ratings Summary</h2>
-      <div className={S.stars}>{starsToDisplay(ratio)}</div>
+      <div className={S.stars}>
+        {ratio ? starsToDisplay(ratio) : starsToDisplay(0)}
+      </div>
       <h3 className={S.ratio}>
-        {ratio}/5, {ratings.length} votes
+        {ratio || 0}/5, {ratings.length} votes
       </h3>
     </div>
   );

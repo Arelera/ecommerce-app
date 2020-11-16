@@ -25,6 +25,11 @@ export const signupUser = (user) => {
 export const signinUser = (user) => {
   return async (dispatch) => {
     const signedUser = await userService.signinUser(user);
+    // if ('error' in signedUser) {
+    //   return dispatch({
+    //     type: 'ERROR',
+    //   });
+    // }
     localStorage.setItem('user', JSON.stringify(signedUser));
     dispatch({
       type: 'SIGNIN',
@@ -35,6 +40,7 @@ export const signinUser = (user) => {
 
 export const signoutUser = () => {
   localStorage.removeItem('user');
+  localStorage.removeItem('cart');
   return {
     type: 'SIGNOUT',
   };

@@ -38,10 +38,11 @@
   align-items: center;
 
   .prodImg {
-    object-fit: contain;
+    object-fit: cover;
+    height: 180px;
+    width: 180px;
     margin-right: 0.5rem;
     max-width: 30%;
-    max-height: 180px;
   }
 
   .prodInfo {
@@ -49,7 +50,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    h3 {
+    .name {
       font-weight: 500;
     }
     .amount {

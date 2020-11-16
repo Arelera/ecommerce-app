@@ -6,7 +6,7 @@ import { setAmount } from '../../../reducers/cartReducer';
 export default function Cart() {
   const dispatch = useDispatch();
   const productsInCart = useSelector((store) => store.cart);
-  console.log('PRODS IN CART', productsInCart);
+
   return (
     <div className={S.cart}>
       <div className={S.top}>
@@ -26,7 +26,7 @@ export default function Cart() {
           <img className={S.prodImg} src={prod.images[0][0]} />
           <div className={S.prodInfo}>
             <Link to={`/products/${prod.id}`}>
-              <h3>{prod.name}</h3>
+              <h3 className={S.name}>{prod.name}</h3>
             </Link>
             <input
               onChange={(e) => dispatch(setAmount(prod.id, e.target.value))}

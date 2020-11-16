@@ -1,16 +1,14 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import S from './SigninPage.module.scss';
 import SigninForm from './SigninForm';
 import SignupForm from './SignupForm';
-import S from './SigninPage.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
-
-import userService from '../../services/userService';
 import { signinUser, signupUser } from '../../reducers/userReducer';
 import { Redirect } from 'react-router-dom';
 
 export default function SigninPage() {
   const dispatch = useDispatch();
-  const isSignedIn = useSelector((state) => !!state.user);
+  const user = useSelector((store) => store.user);
   const [signin, setSignin] = useState(true);
 
   const handleFormSubmit = (e) => {
@@ -36,7 +34,7 @@ export default function SigninPage() {
 
   return (
     <div className={S.signinPage}>
-      {isSignedIn ? (
+      {user ? (
         <Redirect to="/" />
       ) : (
         <div className={S.formBox}>

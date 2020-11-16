@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import S from './ProductPage.module.scss';
 import starsToDisplay from '../stars/starsToDisplay';
 import Ratings from './Ratings/Ratings';
 import productService from '../../services/productService';
 import Loading from '../Loading';
-import { useDispatch } from 'react-redux';
 import { addToCart } from '../../reducers/cartReducer';
 
 export default function ProductPage() {
@@ -42,10 +42,6 @@ export default function ProductPage() {
               <Link to="/" className={S.seller}>
                 {product.username}
               </Link>
-              <div className={S.ratings}>
-                <p className={S.stars}>{starsToDisplay(4)}</p>
-                <p>{ratings.length} ratings</p>
-              </div>
               <p className={S.price}>{product.price}$</p>
               <p className={S.desc}>{product.description}</p>
               <button

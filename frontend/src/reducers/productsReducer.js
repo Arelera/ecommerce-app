@@ -2,7 +2,7 @@ import productService from '../services/productService';
 
 // actions
 // well, it looks like i really don't need all of these action creators since they are all pretty much the same
-// but whatever, i've already written them soo yeah
+// but i've already written them soo yeah
 export const getAll = () => {
   return async (dispatch) => {
     const prods = await productService.getAll().then((res) => res);
@@ -17,15 +17,6 @@ export const getByQuery = (query) => {
     const prods = await productService.getByQuery(query);
     dispatch({
       type: 'GET_BYQUERY',
-      prods,
-    });
-  };
-};
-export const getById = (id) => {
-  return async (dispatch) => {
-    const prods = await productService.getById(id);
-    dispatch({
-      type: 'GET_BYID',
       prods,
     });
   };
@@ -72,8 +63,6 @@ const reducer = (state = [], action) => {
     case 'GET_ALL':
       return action.prods;
     case 'GET_BYQUERY':
-      return action.prods;
-    case 'GET_BYID':
       return action.prods;
     case 'GET_BYCATEGORY':
       return action.prods;

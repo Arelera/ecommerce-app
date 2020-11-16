@@ -6,10 +6,10 @@ export const addToCart = (product) => {
   };
 };
 
-export const removeFromCart = (product) => {
+export const removeFromCart = (id) => {
   return {
     type: 'REMOVE',
-    product,
+    id,
   };
 };
 
@@ -21,25 +21,47 @@ export const setAmount = (id, amount) => {
   };
 };
 
+export const clearCart = () => {
+  localStorage.removeItem('cart');
+  return {
+    type: 'CLEAR',
+  };
+};
+
 // reducer, [[product, amount], ...]
-const cartReducer = (state = [], action) => {
+const initialState = localStorage.getItem('cart')
+  ? JSON.parse(localStorage.getItem('cart'))
+  : [];
+
+const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD':
       // if item already in cart, +1 it's amount
-      return state.some((prod) => prod[0].id === action.product.id)
+      const newCartAdd = state.some((prod) => prod[0].id === action.product.id)
         ? state.map((prod) =>
             prod[0].id === action.product.id
               ? [prod[0], [Number(prod[1]) + 1]]
               : prod
           )
         : [...state, [action.product, 1]];
+      localStorage.setItem('cart', JSON.stringify(newCartAdd));
+      return newCartAdd;
+
     case 'REMOVE':
-      return state.filter((prod) => prod.id !== action.product.id);
+      const newCartRem = state.filter((prod) => prod[0].id !== action.id);
+      localStorage.setItem('cart', JSON.stringify(newCartRem));
+      return newCartRem;
+
     case 'SET_AMOUNT':
-      console.log('STATE: ', state);
-      return state.map((prod) =>
+      const newCartSet = state.map((prod) =>
         prod[0].id === action.id ? [prod[0], action.amount] : prod
       );
+      localStorage.setItem('cart', newCartSet);
+      return newCartSet;
+
+    case 'CLEAR':
+      localStorage.removeItem('cart');
+      return [];
     default:
       return state;
   }

@@ -11,7 +11,6 @@ router.post('/', async (req, res) => {
   const passwordHash = await bcrypt.hash(password, 10);
 
   try {
-    console.log('ADDING USER: ', { username, email, password });
     const response = await client.query(
       `
       INSERT INTO users (username, email, "passwordHash")
@@ -24,7 +23,7 @@ router.post('/', async (req, res) => {
 
     res.send({ ...response.rows[0], token });
   } catch (error) {
-    console.log('ERROR: ', error);
+    console.log(error);
     res.status(400).send({ error });
   }
 });

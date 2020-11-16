@@ -7,7 +7,6 @@ const { JWT_SECRET } = require('../config');
 
 router.post('/', async (req, res) => {
   const { username, password } = req.body;
-
   try {
     const response = await client.query(
       `
@@ -18,7 +17,8 @@ router.post('/', async (req, res) => {
     );
 
     const user = response.rows[0];
-    const passwordCorrect = await bcrypt.compare(password, user.passwordHash);
+    const passwordCorrect =
+      user && (await bcrypt.compare(password, user.passwordHash));
 
     if (!passwordCorrect || !user) {
       return res.status(404).send({ error: 'Invalid credentials' });
@@ -30,8 +30,8 @@ router.post('/', async (req, res) => {
       token,
       id: user.id,
       username: user.username,
-      products,
-      ratings,
+      products: user.products,
+      ratings: user.ratings,
     });
   } catch (error) {
     console.log(error);

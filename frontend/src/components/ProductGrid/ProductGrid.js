@@ -1,19 +1,19 @@
 import ProductCard from './ProductCard/ProductCard';
 import './ProductGrid.scss';
-import productService from '../../services/productService';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import Loading from '../Loading';
+import { useEffect } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getAll,
   getByCategory,
+  getByQuery,
   getBySubcategory,
 } from '../../reducers/productsReducer';
 
 export default function ProductGrid() {
   const dispatch = useDispatch();
   const { category, subcategory } = useParams();
+  const query = new URLSearchParams(useLocation().search).get('query');
   const products = useSelector((store) => store.products);
 
   useEffect(() => {
@@ -21,10 +21,12 @@ export default function ProductGrid() {
       dispatch(getBySubcategory(subcategory));
     } else if (category) {
       dispatch(getByCategory(category));
+    } else if (query) {
+      dispatch(getByQuery(query));
     } else {
       dispatch(getAll());
     }
-  }, [category, subcategory]);
+  }, [category, subcategory, query]);
 
   return (
     <div className="productGrid">

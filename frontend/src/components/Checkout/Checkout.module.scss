@@ -1,0 +1,82 @@
+@import '../../styles/colors.scss';
+
+.checkout {
+  color: $gray-darkx;
+  margin: 1rem;
+  padding: 1rem;
+  box-shadow: 0px 2px 5px $gray-mid;
+  border-radius: 10px;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    h2 {
+      font-size: 2rem;
+    }
+  }
+
+  .prod {
+    display: flex;
+    align-items: center;
+
+    margin: 0.5rem 0;
+    .img {
+      object-fit: cover;
+      width: 200px;
+      height: 200px;
+    }
+    .name {
+      text-align: center;
+      font-size: 1.25rem;
+      font-weight: 600;
+      padding: 0 0.5rem;
+      width: 100%;
+    }
+    .amount {
+      width: 50px;
+      height: 30px;
+      padding: 0 0 0 0.25rem;
+      border: none;
+      box-shadow: 0px 2px 5px $gray-mid;
+      border-radius: 5px;
+    }
+    .price {
+      font-size: 1.5rem;
+      width: 150px;
+      text-align: center;
+    }
+
+    .removeBtn {
+      color: $gray-darkx;
+      font-weight: 700;
+      font-size: 1.5rem;
+      height: 30px;
+      min-width: 30px;
+      background: none;
+      border: none;
+      border-radius: 5px;
+
+      &:hover {
+        background: $gray-lightx;
+      }
+    }
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+      .name {
+        width: 100%;
+      }
+    }
+  }
+  .checkoutBtn {
+    display: block;
+    margin: auto;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: $golden;
+    padding: 0.75rem 1.5rem;
+    background: none;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px $gray-mid;
+  }
+}

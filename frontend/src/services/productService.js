@@ -11,7 +11,6 @@ const getAll = async () => {
 };
 
 const getByQuery = async (query) => {
-  console.log('service GIVEN QUERY: ', query);
   const response = await axios.get(`${baseUrl}/products/search`, {
     params: { query },
   });

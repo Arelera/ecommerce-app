@@ -3,14 +3,14 @@ import { useState } from 'react';
 import searchsvg from './svg/search-solid.svg';
 import { useDispatch } from 'react-redux';
 import { getByQuery } from '../../../reducers/productsReducer';
+import { useHistory, useLocation } from 'react-router-dom';
 
 export default function SearchBar() {
-  const dispatch = useDispatch();
+  const history = useHistory();
   const [query, setQuery] = useState('');
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('submitted: ', query);
-    dispatch(getByQuery(query));
+    history.push(`/search?query=${query}`);
   };
 
   return (
@@ -26,3 +26,5 @@ export default function SearchBar() {
     </form>
   );
 }
+
+const useQuery = () => new URLSearchParams(useLocation().search);
