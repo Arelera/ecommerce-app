@@ -25,6 +25,16 @@
     .name {
       font-size: 1.75rem;
     }
+    .delBtn {
+      border: none;
+      background: none;
+      margin-left: 1rem;
+      color: $gray-mid;
+      padding: 0.5rem;
+      &:hover {
+        color: $gray-darkx;
+      }
+    }
     .desc {
       max-width: 600px;
       font-size: 1.25rem;

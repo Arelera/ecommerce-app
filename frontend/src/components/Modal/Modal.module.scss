@@ -1,13 +1,13 @@
 @import '../../styles/colors.scss';
 
 .modalContainer {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   color: $gray-darkx;
-  background: $gray-lightx;
+  background: transparentize($gray-lightx, 0.2);
   z-index: 100;
   display: flex;
   justify-content: center;

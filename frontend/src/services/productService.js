@@ -28,8 +28,17 @@ const getByCategory = async (category) => {
   return response.data;
 };
 
-const getBySubcategory = async (subcategory) => {
-  const response = await axios.get(`${baseUrl}/products/subcat/${subcategory}`);
+const getBySubcategory = async (category, subcategory) => {
+  const response = await axios.get(
+    `${baseUrl}/products/subcat/${category}/${subcategory}`
+  );
+  return response.data;
+};
+
+const deleteOne = async (id, token) => {
+  const response = await axios.delete(`${baseUrl}/products/${id}`, {
+    headers: { Authorization: token },
+  });
   return response.data;
 };
 
@@ -65,9 +74,17 @@ const addProduct = async (product) => {
   return response.data;
 };
 
+// rating related
 const rateProduct = async (id, obj) => {
   // "obj" should have rating, comment and user
   const response = await axios.post(`${baseUrl}/products/${id}`, obj);
+  return response.data;
+};
+
+const deleteRating = async (id, token) => {
+  const response = await axios.delete(`${baseUrl}/products/ratings/${id}`, {
+    headers: { Authorization: token },
+  });
   return response.data;
 };
 
@@ -75,10 +92,12 @@ const getExt = (filename) => filename.split('.').pop();
 
 export default {
   getAll,
+  deleteOne,
   getByQuery,
   getById,
   getByCategory,
   getBySubcategory,
   addProduct,
   rateProduct,
+  deleteRating,
 };

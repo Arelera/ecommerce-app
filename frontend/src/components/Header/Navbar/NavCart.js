@@ -1,4 +1,4 @@
-import cartsvg from './svg/shopping-cart-solid.svg';
+import cartsvg from '../../../svg/shopping-cart-solid.svg';
 import S from './NavCart.module.scss';
 import Cart from './Cart';
 import useComponentVisible from '../../../hooks/useComponentVisible';

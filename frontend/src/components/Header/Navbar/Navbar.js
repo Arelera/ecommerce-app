@@ -11,11 +11,6 @@ import { signoutUser } from '../../../reducers/userReducer';
 export default function Navbar() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const [isSignedin, setIsSignedin] = useState(!!user);
-
-  useEffect(() => {
-    setIsSignedin(!!user);
-  }, [user]);
 
   return (
     <nav className={S.navbar}>
@@ -23,7 +18,7 @@ export default function Navbar() {
       <Menu />
       <SearchBar />
       <div className={S.signIn}>
-        {isSignedin ? (
+        {user?.username ? (
           <div className={S.signoutadd}>
             <Link to="/" onClick={() => dispatch(signoutUser())}>
               Sign out

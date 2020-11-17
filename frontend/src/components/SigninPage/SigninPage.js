@@ -13,12 +13,12 @@ export default function SigninPage() {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-
     if (signin) {
       const userToSend = {
         username: e.target.username.value,
         password: e.target.password.value,
       };
+      console.log('Signin dispatch');
       dispatch(signinUser(userToSend));
     } else {
       const userToSend = {
@@ -34,7 +34,7 @@ export default function SigninPage() {
 
   return (
     <div className={S.signinPage}>
-      {user ? (
+      {user?.username ? (
         <Redirect to="/" />
       ) : (
         <div className={S.formBox}>

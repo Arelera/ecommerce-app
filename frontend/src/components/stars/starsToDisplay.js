@@ -1,6 +1,6 @@
-import fullStar from './star.svg';
-import halfStar from './star-half.svg';
-import emptyStar from './star-outline.svg';
+import fullStar from '../../svg/star.svg';
+import halfStar from '../../svg/star-half.svg';
+import emptyStar from '../../svg/star-outline.svg';
 
 const starsToDisplay = (rating) => {
   const decimal = rating % 1;

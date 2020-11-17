@@ -1,5 +1,7 @@
 const router = require('express').Router();
+const jwt = require('jsonwebtoken');
 const client = require('../client');
+const { JWT_SECRET } = require('../config');
 
 router.get('/', async (req, res) => {
   try {
@@ -55,17 +57,17 @@ router.get('/cat/:category', async (req, res) => {
   }
 });
 
-router.get('/subcat/:subcategory/', async (req, res) => {
+router.get('/subcat/:category/:subcategory/', async (req, res) => {
   try {
-    const subcategory = req.params.subcategory;
+    const { category, subcategory } = req.params;
     const response = await client.query(
       `
       SELECT p.id, name, description, images, price, category, subcategory, avg(rating) rating FROM products p
       LEFT JOIN ratings r ON p.id = r.product
-      WHERE p.subcategory = $1
+      WHERE p.category = $1 AND p.subcategory = $2
       GROUP BY p.id 
       `,
-      [subcategory]
+      [category, subcategory]
     );
     console.log(response.rows);
     res.send(response.rows);
@@ -181,6 +183,47 @@ router.post('/:id', async (req, res) => {
       comment,
       createdAt: response.rows[0].createdAt,
     });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send();
+  }
+});
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const token = req.headers.authorization;
+
+    // this throws an error if token is not verified
+    jwt.verify(token, JWT_SECRET);
+
+    const id = req.params.id;
+    const response = await client.query(
+      `
+      DELETE FROM products
+      WHERE id = $1
+      `,
+      [id]
+    );
+    res.status(204).send();
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.delete('/ratings/:id', async (req, res) => {
+  try {
+    const token = req.headers.authorization;
+    jwt.verify(token, JWT_SECRET);
+
+    const id = req.params.id;
+    await client.query(
+      `
+      DELETE FROM ratings
+      WHERE id = $1
+      `,
+      [id]
+    );
+    res.status(204).send();
   } catch (error) {
     console.log(error);
     res.status(400).send();

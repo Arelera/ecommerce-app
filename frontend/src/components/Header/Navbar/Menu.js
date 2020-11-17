@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import S from './Menu.module.scss';
-import hamburger from './svg/bars-solid.svg';
+import hamburger from '../../../svg/bars-solid.svg';
 import { useHistory } from 'react-router-dom';
 import categories from '../../categories';
 

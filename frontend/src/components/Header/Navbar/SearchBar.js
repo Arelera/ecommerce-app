@@ -1,8 +1,6 @@
 import S from './SearchBar.module.scss';
+import searchsvg from '../../../svg/search-solid.svg';
 import { useState } from 'react';
-import searchsvg from './svg/search-solid.svg';
-import { useDispatch } from 'react-redux';
-import { getByQuery } from '../../../reducers/productsReducer';
 import { useHistory, useLocation } from 'react-router-dom';
 
 export default function SearchBar() {

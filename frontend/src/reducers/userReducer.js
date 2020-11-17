@@ -25,11 +25,12 @@ export const signupUser = (user) => {
 export const signinUser = (user) => {
   return async (dispatch) => {
     const signedUser = await userService.signinUser(user);
-    // if ('error' in signedUser) {
-    //   return dispatch({
-    //     type: 'ERROR',
-    //   });
-    // }
+    if ('error' in signedUser) {
+      return dispatch({
+        type: 'ERROR',
+        error: signedUser.error,
+      });
+    }
     localStorage.setItem('user', JSON.stringify(signedUser));
     dispatch({
       type: 'SIGNIN',
@@ -56,6 +57,10 @@ const reducer = (state = null, action) => {
     case 'SIGNUP':
       return action.user;
     case 'SIGNOUT':
+      return null;
+    case 'ERROR':
+      return { error: action.error };
+    case 'CLEAR':
       return null;
     default:
       return state;

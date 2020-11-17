@@ -30,9 +30,9 @@ export const getByCategory = (cat) => {
     });
   };
 };
-export const getBySubcategory = (subcat) => {
+export const getBySubcategory = (cat, subcat) => {
   return async (dispatch) => {
-    const prods = await productService.getBySubcategory(subcat);
+    const prods = await productService.getBySubcategory(cat, subcat);
     dispatch({
       type: 'GET_BYSUBCATEGORY',
       prods,
@@ -42,6 +42,17 @@ export const getBySubcategory = (subcat) => {
 export const addProduct = (product) => {
   return async (dispatch) => {
     const prods = await productService.addProduct(product);
+
+    // adding new product to users products in localstorage
+    const localUser = JSON.parse(localStorage.getItem('user'));
+    if ('products' in localUser) {
+      const prods = localUser.products;
+      prods.push(prods.id);
+      localStorage.setItem(
+        'user',
+        JSON.stringify({ ...localUser, products: prods })
+      );
+    }
     dispatch({
       type: 'ADD_PRODUCT',
       prods,
@@ -56,6 +67,27 @@ export const rateProduct = (id, obj) => {
     });
   };
 };
+export const deleteOne = (id) => {
+  return async (dispatch) => {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      const token = JSON.parse(userJson).token;
+      productService.deleteOne(id, token);
+      dispatch({ type: 'DELETE' });
+    }
+  };
+};
+
+export const deleteRating = (id) => {
+  return async (dispatch) => {
+    const userJson = localStorage.getItem('user');
+    if (userJson) {
+      const token = JSON.parse(userJson).token;
+      productService.deleteRating(id, token);
+      dispatch({ type: 'DELETE_RATING' });
+    }
+  };
+};
 
 // reducer
 const reducer = (state = [], action) => {
@@ -68,10 +100,10 @@ const reducer = (state = [], action) => {
       return action.prods;
     case 'GET_BYSUBCATEGORY':
       return action.prods;
-    case 'ADD_PRODUCT':
-      return;
-    case 'RATE_PRODUCT':
-      return state;
+    // case 'ADD_PRODUCT':
+    //   return state;
+    // case 'RATE_PRODUCT':
+    //   return state;
     default:
       return state;
   }

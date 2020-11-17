@@ -1,6 +1,7 @@
 @import '../../../styles/colors.scss';
 
 .rating {
+  position: relative; // for RatingMenu
   margin-bottom: 1.5rem;
   .creator {
     display: flex;

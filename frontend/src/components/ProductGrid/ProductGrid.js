@@ -18,7 +18,7 @@ export default function ProductGrid() {
 
   useEffect(() => {
     if (subcategory) {
-      dispatch(getBySubcategory(subcategory));
+      dispatch(getBySubcategory(category, subcategory));
     } else if (category) {
       dispatch(getByCategory(category));
     } else if (query) {
