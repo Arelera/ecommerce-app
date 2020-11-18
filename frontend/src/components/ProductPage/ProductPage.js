@@ -1,15 +1,17 @@
+import S from './ProductPage.module.scss';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
-import S from './ProductPage.module.scss';
-import starsToDisplay from '../stars/starsToDisplay';
+
 import Ratings from './Ratings/Ratings';
-import productService from '../../services/productService';
 import Loading from '../Loading';
-import { addToCart } from '../../reducers/cartReducer';
-import useComponentVisible from '../../hooks/useComponentVisible';
 import Modal from '../Modal/Modal';
-import { deleteOne } from '../../reducers/productsReducer';
+import productService from '../../services/productService';
+import useComponentVisible from '../../hooks/useComponentVisible';
+import { addToCart } from '../../reducers/cartReducer';
+import { setRatings, deleteRating } from '../../reducers/ratingsReducer';
+import ProductEditForm from './ProductEditForm';
+import RatingMenu from './Ratings/RatingMenu';
 
 export default function ProductPage() {
   const history = useHistory();
@@ -17,11 +19,12 @@ export default function ProductPage() {
   const id = useParams().id;
 
   const user = useSelector((store) => store.user);
+  const ratings = useSelector((store) => store.ratings);
   const myProduct = user?.products.includes(id);
 
   const [product, setProduct] = useState();
-  const [ratings, setRatings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
 
   const [modalRef, isModal, setIsModal] = useComponentVisible();
 
@@ -30,7 +33,7 @@ export default function ProductPage() {
       .getById(id)
       .then(({ product, ratings }) => {
         setProduct(product);
-        setRatings(ratings);
+        dispatch(setRatings(ratings));
         setIsLoading(false);
       })
       .catch((err) => {
@@ -39,9 +42,8 @@ export default function ProductPage() {
   }, []);
 
   const handleDelete = () => {
-    console.log('wadap');
     history.push('/');
-    dispatch(deleteOne(id));
+    dispatch(deleteRating(id));
   };
 
   return (
@@ -60,27 +62,36 @@ export default function ProductPage() {
         <>
           <div className={S.productBox}>
             <img className={S.img} src={product.images[0][0]} />
-            <div className={S.info}>
-              <h2 className={S.name}>{product.name}</h2>
-              <Link to="/" className={S.seller}>
-                {product.username}
-              </Link>
-              {myProduct && (
-                <button className={S.delBtn} onClick={() => setIsModal(true)}>
-                  Delete product
+            {isEditing ? (
+              <ProductEditForm
+                product={product}
+                cancelEditing={() => setIsEditing(false)}
+              />
+            ) : (
+              <div className={S.info}>
+                <h2 className={S.name}>{product.name}</h2>
+                <Link to="/" className={S.seller}>
+                  {product.username}
+                </Link>
+                <p className={S.price}>{product.price}$</p>
+                <p className={S.stock}>{product.stock} in stock</p>
+                <p className={S.desc}>{product.description}</p>
+                <button
+                  className={S.addCart}
+                  onClick={() => dispatch(addToCart(product))}
+                >
+                  Add to Cart
                 </button>
-              )}
-              <p className={S.price}>{product.price}$</p>
-              <p className={S.desc}>{product.description}</p>
-              <button
-                className={S.addCart}
-                onClick={() => dispatch(addToCart(product))}
-              >
-                Add to Cart
-              </button>
-            </div>
+                {myProduct && (
+                  <RatingMenu
+                    handleDelete={() => setIsModal(true)}
+                    toggleEdit={() => setIsEditing(true)}
+                  />
+                )}
+              </div>
+            )}
           </div>
-          <Ratings ratings={ratings} setRatings={setRatings} />
+          <Ratings ratings={ratings} />
         </>
       )}
     </div>

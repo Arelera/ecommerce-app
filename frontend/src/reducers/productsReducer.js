@@ -1,3 +1,4 @@
+import Axios from 'axios';
 import productService from '../services/productService';
 
 // actions
@@ -53,18 +54,7 @@ export const addProduct = (product) => {
         JSON.stringify({ ...localUser, products: prods })
       );
     }
-    dispatch({
-      type: 'ADD_PRODUCT',
-      prods,
-    });
-  };
-};
-export const rateProduct = (id, obj) => {
-  return async (dispatch) => {
-    const res = await productService.rateProduct(id, obj);
-    dispatch({
-      type: 'RATE_PRODUCT',
-    });
+    dispatch({ type: 'ADD_PRODUCT', prods });
   };
 };
 export const deleteOne = (id) => {
@@ -77,14 +67,13 @@ export const deleteOne = (id) => {
     }
   };
 };
-
-export const deleteRating = (id) => {
+export const editOne = (id, newProduct) => {
   return async (dispatch) => {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const token = JSON.parse(userJson).token;
-      productService.deleteRating(id, token);
-      dispatch({ type: 'DELETE_RATING' });
+      const product = await productService.editOne(id, newProduct, token);
+      dispatch({ type: 'EDIT_PRODUCT', product });
     }
   };
 };
@@ -100,10 +89,6 @@ const reducer = (state = [], action) => {
       return action.prods;
     case 'GET_BYSUBCATEGORY':
       return action.prods;
-    // case 'ADD_PRODUCT':
-    //   return state;
-    // case 'RATE_PRODUCT':
-    //   return state;
     default:
       return state;
   }

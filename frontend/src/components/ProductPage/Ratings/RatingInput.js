@@ -3,21 +3,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import S from './RatingInput.module.scss';
 import starsToDisplay from '../../stars/starsToDisplay';
-import productService from '../../../services/productService';
-import { rateProduct } from '../../../reducers/productsReducer';
+import { editRating, rateProduct } from '../../../reducers/ratingsReducer';
 
-export default function RatingInput() {
+export default function RatingInput({ isEditing, setCanSeeInput }) {
   const dispatch = useDispatch();
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
 
   const id = useParams().id;
-  const user = useSelector((state) => state.user);
+  const user = useSelector((store) => store.user);
 
   const handleSubmitRating = (e) => {
     e.preventDefault();
-    const obj = { rating, comment, user: user.id };
-    dispatch(rateProduct(id, obj));
+    const fullRating = { rating, comment, user: user.id };
+    isEditing
+      ? dispatch(editRating(id, fullRating))
+      : dispatch(rateProduct(id, fullRating));
+    setCanSeeInput(false);
     setRating(5);
     setComment('');
   };
@@ -38,13 +40,22 @@ export default function RatingInput() {
         <textarea
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          placeholder="Add a review"
+          placeholder={isEditing ? 'Edit review' : 'Add a review'}
           className={S.textarea}
         ></textarea>
       </label>
       <button className={S.button} type="submit">
         Submit
       </button>
+      {isEditing && (
+        <button
+          className={S.button}
+          type="button"
+          onClick={() => setCanSeeInput(false)}
+        >
+          Cancel
+        </button>
+      )}
     </form>
   );
 }

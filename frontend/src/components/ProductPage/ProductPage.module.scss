@@ -4,9 +4,10 @@
   padding: 1rem;
 }
 .productBox {
+  position: relative;
   display: flex;
 
-  padding: 2rem 0;
+  padding: 0 0 1rem 0;
   // box-shadow: 0px 2px 5px $gray-mid;
 
   .img {
@@ -25,7 +26,7 @@
     .name {
       font-size: 1.75rem;
     }
-    .delBtn {
+    .ownerBtn {
       border: none;
       background: none;
       margin-left: 1rem;

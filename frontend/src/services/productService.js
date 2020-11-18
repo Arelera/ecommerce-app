@@ -74,15 +74,9 @@ const addProduct = async (product) => {
   return response.data;
 };
 
-// rating related
-const rateProduct = async (id, obj) => {
-  // "obj" should have rating, comment and user
-  const response = await axios.post(`${baseUrl}/products/${id}`, obj);
-  return response.data;
-};
-
-const deleteRating = async (id, token) => {
-  const response = await axios.delete(`${baseUrl}/products/ratings/${id}`, {
+const editOne = async (id, newProduct, token) => {
+  // can edit name, description, stock, price
+  const response = await axios.put(`${baseUrl}/products/${id}`, newProduct, {
     headers: { Authorization: token },
   });
   return response.data;
@@ -90,14 +84,15 @@ const deleteRating = async (id, token) => {
 
 const getExt = (filename) => filename.split('.').pop();
 
-export default {
+const productService = {
   getAll,
   deleteOne,
+  editOne,
   getByQuery,
   getById,
   getByCategory,
   getBySubcategory,
   addProduct,
-  rateProduct,
-  deleteRating,
 };
+
+export default productService;
