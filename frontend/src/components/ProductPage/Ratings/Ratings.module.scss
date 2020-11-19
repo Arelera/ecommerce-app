@@ -6,6 +6,9 @@
   color: $gray-darkx;
   border-radius: 10px;
   display: flex;
+  @media screen and (max-width: 620px) {
+    flex-direction: column;
+  }
 }
 
 .ratingsList {

@@ -9,9 +9,12 @@ import Modal from '../Modal/Modal';
 import productService from '../../services/productService';
 import useComponentVisible from '../../hooks/useComponentVisible';
 import { addToCart } from '../../reducers/cartReducer';
-import { setRatings, deleteRating } from '../../reducers/ratingsReducer';
+import { setRatings } from '../../reducers/ratingsReducer';
 import ProductEditForm from './ProductEditForm';
-import RatingMenu from './Ratings/RatingMenu';
+
+import Carousel from '../Carousel/Carousel';
+import DotMenu from '../DotMenu/DotMenu';
+import { deleteOne } from '../../reducers/productsReducer';
 
 export default function ProductPage() {
   const history = useHistory();
@@ -39,11 +42,11 @@ export default function ProductPage() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [dispatch, id]);
 
   const handleDelete = () => {
     history.push('/');
-    dispatch(deleteRating(id));
+    dispatch(deleteOne(product));
   };
 
   return (
@@ -61,7 +64,7 @@ export default function ProductPage() {
       ) : (
         <>
           <div className={S.productBox}>
-            <img className={S.img} src={product.images[0][0]} />
+            <Carousel images={product.images} />
             {isEditing ? (
               <ProductEditForm
                 product={product}
@@ -70,7 +73,10 @@ export default function ProductPage() {
             ) : (
               <div className={S.info}>
                 <h2 className={S.name}>{product.name}</h2>
-                <Link to="/" className={S.seller}>
+                <Link
+                  to={`/products/user/${product.creator}`}
+                  className={S.seller}
+                >
                   {product.username}
                 </Link>
                 <p className={S.price}>{product.price}$</p>
@@ -83,9 +89,10 @@ export default function ProductPage() {
                   Add to Cart
                 </button>
                 {myProduct && (
-                  <RatingMenu
-                    handleDelete={() => setIsModal(true)}
-                    toggleEdit={() => setIsEditing(true)}
+                  <DotMenu
+                    choices={['edit', 'delete']}
+                    size="big"
+                    funcs={[() => setIsEditing(true), () => setIsModal(true)]}
                   />
                 )}
               </div>

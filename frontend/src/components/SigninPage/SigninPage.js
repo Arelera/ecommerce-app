@@ -18,7 +18,6 @@ export default function SigninPage() {
         username: e.target.username.value,
         password: e.target.password.value,
       };
-      console.log('Signin dispatch');
       dispatch(signinUser(userToSend));
     } else {
       const userToSend = {

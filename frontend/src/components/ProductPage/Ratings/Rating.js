@@ -1,6 +1,6 @@
 import S from './Rating.module.scss';
 import starsToDisplay from '../../stars/starsToDisplay';
-import RatingMenu from './RatingMenu';
+import DotMenu from '../../DotMenu/DotMenu';
 import Modal from '../../Modal/Modal';
 import useComponentVisible from '../../../hooks/useComponentVisible';
 
@@ -26,9 +26,10 @@ export default function Rating({ rating, user, handleDelete, toggleEdit }) {
       <p className={S.date}>{cleanDate(rating.createdAt)}</p>
       <p>{rating.comment}</p>
       {isMyRating && (
-        <RatingMenu
-          handleDelete={() => setModalOpen(true)}
-          toggleEdit={toggleEdit}
+        <DotMenu
+          choices={['edit', 'delete']}
+          funcs={[toggleEdit, () => setModalOpen(true)]}
+          size="small"
         />
       )}
     </div>

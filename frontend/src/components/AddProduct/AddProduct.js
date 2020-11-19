@@ -22,7 +22,6 @@ export default function AddProduct() {
 
   const handleSubmitProduct = (e) => {
     e.preventDefault();
-    console.log('IMAAGES: ', images);
     const productToSubmit = {
       name,
       description,

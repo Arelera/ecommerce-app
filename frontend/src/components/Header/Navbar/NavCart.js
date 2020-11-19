@@ -14,7 +14,7 @@ export default function NavCart() {
       </div>
       {cartVisible && (
         <div ref={cartRef}>
-          <Cart />
+          <Cart setCartVisible={setCartVisible} />
         </div>
       )}
     </>

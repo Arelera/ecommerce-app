@@ -1,14 +1,16 @@
 import S from './SearchBar.module.scss';
 import searchsvg from '../../../svg/search-solid.svg';
 import { useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 export default function SearchBar() {
   const history = useHistory();
   const [query, setQuery] = useState('');
   const handleSubmit = (e) => {
     e.preventDefault();
-    history.push(`/search?query=${query}`);
+    if (e.target.value) {
+      history.push(`/search?query=${query}`);
+    }
   };
 
   return (
@@ -17,6 +19,7 @@ export default function SearchBar() {
         className={S.input}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search a product"
       />
       <button className={S.button} type="submit">
         <img src={searchsvg} alt="" />
@@ -24,5 +27,3 @@ export default function SearchBar() {
     </form>
   );
 }
-
-const useQuery = () => new URLSearchParams(useLocation().search);

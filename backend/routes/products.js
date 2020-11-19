@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
   try {
     const response = await client.query(
       `
-      SELECT p.id, name, description, images, price, category, subcategory, avg(rating) rating FROM products p
+      SELECT p.id, name, description, images, price, category, subcategory, p."createdAt", avg(rating) rating FROM products p
       LEFT JOIN ratings r ON p.id = r.product
       GROUP BY p.id 
       `
@@ -24,7 +24,7 @@ router.get('/search', async (req, res) => {
     const { query } = req.query;
     const response = await client.query(
       `
-      SELECT p.id, name, description, images, price, category, subcategory, avg(rating) rating FROM products p
+      SELECT p.id, name, description, images, price, category, subcategory, p."createdAt", avg(rating) rating FROM products p
       LEFT JOIN ratings r ON p.id = r.product
       WHERE name ILIKE ('%' || $1 || '%')
       GROUP BY p.id
@@ -43,7 +43,7 @@ router.get('/cat/:category', async (req, res) => {
     const category = req.params.category;
     const response = await client.query(
       `
-      SELECT p.id, name, description, images, price, category, subcategory, avg(rating) rating FROM products p
+      SELECT p.id, name, description, images, price, category, subcategory, p."createdAt", avg(rating) rating FROM products p
       LEFT JOIN ratings r ON p.id = r.product
       WHERE p.category = $1
       GROUP BY p.id 
@@ -62,7 +62,7 @@ router.get('/subcat/:category/:subcategory/', async (req, res) => {
     const { category, subcategory } = req.params;
     const response = await client.query(
       `
-      SELECT p.id, name, description, images, price, category, subcategory, avg(rating) rating FROM products p
+      SELECT p.id, name, description, images, price, category, subcategory, p."createdAt", avg(rating) rating FROM products p
       LEFT JOIN ratings r ON p.id = r.product
       WHERE p.category = $1 AND p.subcategory = $2
       GROUP BY p.id 
@@ -106,6 +106,25 @@ router.get('/:id', async (req, res) => {
     }
 
     res.send({ product: response.rows[0], ratings: ratings.rows });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send();
+  }
+});
+
+router.get('/user/:id', async (req, res) => {
+  try {
+    const creator = req.params.id;
+    const response = await client.query(
+      `
+      SELECT p.id, name, description, images, price, category, subcategory, avg(rating) rating FROM products p
+      JOIN ratings r ON p.id = r.product
+      WHERE p.creator = $1
+      GROUP BY p.id
+      `,
+      [creator]
+    );
+    res.send(response.rows);
   } catch (error) {
     console.log(error);
     res.status(400).send();

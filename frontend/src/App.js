@@ -14,6 +14,7 @@ import ProductPage from './components/ProductPage/ProductPage';
 import AddProduct from './components/AddProduct/AddProduct';
 import Checkout from './components/Checkout/Checkout';
 import { initUser } from './reducers/userReducer';
+import ProductGrid from './components/ProductGrid/ProductGrid';
 
 function App() {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ function App() {
     if (userJson) {
       dispatch(initUser(JSON.parse(userJson)));
     }
-  }, []);
+  }, [dispatch]);
   return (
     <Router>
       <Header />
@@ -33,15 +34,15 @@ function App() {
         <Route exact path="/checkout" component={Checkout} />
         <Route exact path="/search" component={CategoryPage} />
 
-        <Route exact path="/product/:id" component={ProductPage} />
-
+        <Route exact path="/products/user/:id" component={ProductGrid} />
         <Route exact path="/products/:category" component={CategoryPage} />
-
         <Route
           exact
           path="/products/:category/:subcategory"
           component={CategoryPage}
         />
+        <Route exact path="/product/:id" component={ProductPage} />
+
         <Route path="/*">
           <Redirect to="/" />
         </Route>

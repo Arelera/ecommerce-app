@@ -1,43 +1,48 @@
-import Axios from 'axios';
 import productService from '../services/productService';
-
+import { storageRef } from '../firebase/storage';
 // actions
-// well, it looks like i really don't need all of these action creators since they are all pretty much the same
-// but i've already written them soo yeah
 export const getAll = () => {
   return async (dispatch) => {
     const prods = await productService.getAll().then((res) => res);
     dispatch({
-      type: 'GET_ALL',
+      type: 'GET_PRODUCTS',
       prods,
     });
+    dispatch({ type: 'STOP_LOADING' });
   };
 };
 export const getByQuery = (query) => {
   return async (dispatch) => {
     const prods = await productService.getByQuery(query);
     dispatch({
-      type: 'GET_BYQUERY',
+      type: 'GET_PRODUCTS',
       prods,
     });
+    dispatch({ type: 'STOP_LOADING' });
   };
 };
 export const getByCategory = (cat) => {
   return async (dispatch) => {
     const prods = await productService.getByCategory(cat);
     dispatch({
-      type: 'GET_BYCATEGORY',
+      type: 'GET_PRODUCTS',
       prods,
     });
+    dispatch({ type: 'STOP_LOADING' });
   };
 };
 export const getBySubcategory = (cat, subcat) => {
   return async (dispatch) => {
     const prods = await productService.getBySubcategory(cat, subcat);
-    dispatch({
-      type: 'GET_BYSUBCATEGORY',
-      prods,
-    });
+    dispatch({ type: 'GET_PRODUCTS', prods });
+    dispatch({ type: 'STOP_LOADING' });
+  };
+};
+export const getByUser = (creator) => {
+  return async (dispatch) => {
+    const prods = await productService.getByUser(creator);
+    dispatch({ type: 'GET_PRODUCTS', prods });
+    dispatch({ type: 'STOP_LOADING' });
   };
 };
 export const addProduct = (product) => {
@@ -57,13 +62,28 @@ export const addProduct = (product) => {
     dispatch({ type: 'ADD_PRODUCT', prods });
   };
 };
-export const deleteOne = (id) => {
+export const deleteOne = (product) => {
   return async (dispatch) => {
     const userJson = localStorage.getItem('user');
     if (userJson) {
       const token = JSON.parse(userJson).token;
-      productService.deleteOne(id, token);
-      dispatch({ type: 'DELETE' });
+      try {
+        await productService.deleteOne(product.id, token);
+        product.images.forEach(([url, path]) => {
+          const imgRef = storageRef.child(path);
+          imgRef
+            .delete()
+            .then((res) => {
+              console.log('RES: ', res);
+            })
+            .catch((error) => {
+              return console.log(error);
+            });
+        });
+        dispatch({ type: 'DELETE' });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 };
@@ -81,13 +101,7 @@ export const editOne = (id, newProduct) => {
 // reducer
 const reducer = (state = [], action) => {
   switch (action.type) {
-    case 'GET_ALL':
-      return action.prods;
-    case 'GET_BYQUERY':
-      return action.prods;
-    case 'GET_BYCATEGORY':
-      return action.prods;
-    case 'GET_BYSUBCATEGORY':
+    case 'GET_PRODUCTS':
       return action.prods;
     default:
       return state;

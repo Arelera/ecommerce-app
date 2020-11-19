@@ -10,7 +10,7 @@ export default function SigninForm({ handleFormSubmit, setSignin }) {
       dispatch({ type: 'CLEAR' });
     }, 5000);
     return () => clearTimeout(id);
-  }, [user]);
+  }, [user, dispatch]);
 
   return (
     <form onSubmit={handleFormSubmit} className={S.form}>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAmount } from '../../../reducers/cartReducer';
 
-export default function Cart() {
+export default function Cart({ setCartVisible }) {
   const dispatch = useDispatch();
   const productsInCart = useSelector((store) => store.cart);
 
@@ -23,9 +23,9 @@ export default function Cart() {
 
       {productsInCart.map(([prod, amount]) => (
         <div className={S.cartItem} key={prod.id}>
-          <img className={S.prodImg} src={prod.images[0][0]} />
+          <img className={S.prodImg} src={prod.images[0][0]} alt="" />
           <div className={S.prodInfo}>
-            <Link to={`/products/${prod.id}`}>
+            <Link to={`/product/${prod.id}`}>
               <h3 className={S.name}>{prod.name}</h3>
             </Link>
             <input
@@ -39,6 +39,9 @@ export default function Cart() {
           </div>
         </div>
       ))}
+      <button className={S.hideBtn} onClick={() => setCartVisible(false)}>
+        Hide cart
+      </button>
     </div>
   );
 }

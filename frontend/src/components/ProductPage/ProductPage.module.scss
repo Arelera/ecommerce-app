@@ -8,14 +8,13 @@
   display: flex;
 
   padding: 0 0 1rem 0;
-  // box-shadow: 0px 2px 5px $gray-mid;
 
   .img {
     object-fit: contain;
     margin-right: 1rem;
     min-width: 50%;
-
     height: 500px;
+
     box-shadow: 0px 2px 5px $gray-mid;
     border-radius: 10px;
   }
@@ -50,10 +49,16 @@
         text-decoration: underline;
       }
     }
+
+    .stock {
+      color: $gray-dark;
+      margin-bottom: 0.5rem;
+    }
+
     .price {
       font-weight: 600;
       font-size: 2.5rem;
-      margin-bottom: 1rem;
+      // margin-bottom: 1rem;
     }
 
     .addCart {
@@ -73,6 +78,12 @@
       &:active {
         background: $gray-lightx;
       }
+    }
+  }
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    .img {
+      margin: 0;
     }
   }
 }

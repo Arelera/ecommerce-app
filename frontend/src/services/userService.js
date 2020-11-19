@@ -16,4 +16,5 @@ const signinUser = async (user) => {
   }
 };
 
-export default { signupUser, signinUser };
+const userService = { signupUser, signinUser };
+export default userService;

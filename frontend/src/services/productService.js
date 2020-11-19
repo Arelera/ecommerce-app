@@ -35,6 +35,11 @@ const getBySubcategory = async (category, subcategory) => {
   return response.data;
 };
 
+const getByUser = async (userId) => {
+  const response = await axios.get(`${baseUrl}/products/user/${userId}`);
+  return response.data;
+};
+
 const deleteOne = async (id, token) => {
   const response = await axios.delete(`${baseUrl}/products/${id}`, {
     headers: { Authorization: token },
@@ -92,6 +97,7 @@ const productService = {
   getById,
   getByCategory,
   getBySubcategory,
+  getByUser,
   addProduct,
 };
 

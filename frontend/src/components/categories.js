@@ -1,4 +1,4 @@
-export default [
+const categories = [
   {
     name: 'Electronics',
     subcategories: [
@@ -36,3 +36,4 @@ export default [
     ],
   },
 ];
+export default categories;
