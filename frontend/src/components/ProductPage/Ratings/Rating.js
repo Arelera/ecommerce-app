@@ -6,7 +6,7 @@ import useComponentVisible from '../../../hooks/useComponentVisible';
 
 export default function Rating({ rating, user, handleDelete, toggleEdit }) {
   const cleanDate = (date) => `${date.slice(0, 10)} / ${date.slice(11, -4)}`;
-  const isMyRating = rating.creator === user.id;
+  const isMyRating = rating.creator === user?.id;
   const [modalRef, modalOpen, setModalOpen] = useComponentVisible();
 
   return (

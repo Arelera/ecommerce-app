@@ -7,7 +7,7 @@ export default function Modal({ modalRef, message, setClose, onClick }) {
       <div ref={modalRef} className={S.modal}>
         <p>{message}</p>
 
-        <button className={S.acceptBtn} onClick={onClick}>
+        <button className={S.acceptBtn} onClick={onClick || setClose}>
           Accept
         </button>
         <button className={S.closeBtn} onClick={setClose}>

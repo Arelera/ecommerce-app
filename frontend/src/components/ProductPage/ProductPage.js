@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useParams } from 'react-router-dom';
 
 import Ratings from './Ratings/Ratings';
-import Loading from '../Loading';
 import Modal from '../Modal/Modal';
 import productService from '../../services/productService';
 import useComponentVisible from '../../hooks/useComponentVisible';
 import { addToCart } from '../../reducers/cartReducer';
 import { setRatings } from '../../reducers/ratingsReducer';
 import ProductEditForm from './ProductEditForm';
+import Loader from '../Loader/Loader';
 
 import Carousel from '../Carousel/Carousel';
 import DotMenu from '../DotMenu/DotMenu';
@@ -23,10 +23,10 @@ export default function ProductPage() {
 
   const user = useSelector((store) => store.user);
   const ratings = useSelector((store) => store.ratings);
+  const loading = useSelector((store) => store.loading);
   const myProduct = user?.products.includes(id);
 
   const [product, setProduct] = useState();
-  const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
 
   const [modalRef, isModal, setIsModal] = useComponentVisible();
@@ -37,12 +37,12 @@ export default function ProductPage() {
       .then(({ product, ratings }) => {
         setProduct(product);
         dispatch(setRatings(ratings));
-        setIsLoading(false);
+        dispatch({ type: 'STOP_LOADING' });
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [dispatch, id]);
+  }, [id, dispatch]);
 
   const handleDelete = () => {
     history.push('/');
@@ -59,8 +59,8 @@ export default function ProductPage() {
           onClick={handleDelete}
         />
       )}
-      {isLoading ? (
-        <Loading />
+      {loading ? (
+        <Loader />
       ) : (
         <>
           <div className={S.productBox}>
@@ -98,7 +98,7 @@ export default function ProductPage() {
               </div>
             )}
           </div>
-          <Ratings ratings={ratings} />
+          <Ratings ratings={ratings} productCreator={product.creator} />
         </>
       )}
     </div>

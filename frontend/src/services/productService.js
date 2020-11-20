@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid';
 import axios from 'axios';
 import { imagesRef } from '../firebase/storage';
 
-const baseUrl = process.env.BASE_URL || 'http://localhost:3001';
+const baseUrl = (process.env.BASE_URL || 'http://localhost:3001') + '/api';
 
 // for main page
 const getAll = async () => {
@@ -49,6 +49,7 @@ const deleteOne = async (id, token) => {
 
 const addProduct = async (product) => {
   const images = product.images;
+  console.log({ product });
   const productToSend = {};
 
   for (let k in product) {
@@ -74,6 +75,7 @@ const addProduct = async (product) => {
       productToSend[k] = product[k];
     }
   }
+  console.log({ productToSend });
   const response = await axios.post(`${baseUrl}/products`, productToSend);
 
   return response.data;
@@ -91,14 +93,14 @@ const getExt = (filename) => filename.split('.').pop();
 
 const productService = {
   getAll,
-  deleteOne,
-  editOne,
   getByQuery,
   getById,
   getByCategory,
   getBySubcategory,
   getByUser,
   addProduct,
+  deleteOne,
+  editOne,
 };
 
 export default productService;

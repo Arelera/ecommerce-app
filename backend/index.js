@@ -12,9 +12,9 @@ app.use(cors());
 app.use(helmet());
 app.use(express.json());
 
-app.use('/sign-up', signupRouter);
-app.use('/sign-in', signinRouter);
-app.use('/products', productsRouter);
+app.use('/api/sign-up', signupRouter);
+app.use('/api/sign-in', signinRouter);
+app.use('/api/products', productsRouter);
 
 app.use('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '/build/index.js'), (err) => {

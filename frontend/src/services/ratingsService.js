@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = process.env.BASE_URL || 'http://localhost:3001';
+const baseUrl = (process.env.BASE_URL || 'http://localhost:3001') + '/api';
 
 const rateProduct = async (id, rating) => {
   // "rating" should have rating, comment and user

@@ -6,15 +6,19 @@ import RatingsSum from './RatingsSum';
 import { deleteRating } from '../../../reducers/ratingsReducer';
 import { useState } from 'react';
 
-export default function Ratings({ ratings }) {
+export default function Ratings({ ratings, productCreator }) {
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
   const sorted = ratings.sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
   const [isEditing, setIsEditing] = useState(false);
+
+  // don't show input if it's users product or if user rated before
   const [canSeeInput, setCanSeeInput] = useState(
-    !ratings.find((rating) => rating.creator === user.id)
+    productCreator !== user.id &&
+      user &&
+      !ratings.find((rating) => rating.creator === user.id)
   );
   const handleDelete = (id) => {
     dispatch(deleteRating(id));

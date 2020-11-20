@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import S from './AddProduct.module.scss';
 import categories from '../categories';
@@ -8,6 +8,7 @@ import productService from '../../services/productService';
 
 export default function AddProduct() {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
@@ -22,11 +23,13 @@ export default function AddProduct() {
 
   const handleSubmitProduct = (e) => {
     e.preventDefault();
+    dispatch({ type: 'START_LOADING' });
     const productToSubmit = {
       name,
       description,
       price,
       images,
+      stock,
       creator: signedUser.id,
       category: cleanForUrl(category),
       subcategory: cleanForUrl(subcategory),

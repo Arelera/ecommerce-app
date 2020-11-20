@@ -138,6 +138,7 @@ router.post('/', async (req, res) => {
     description,
     images,
     price,
+    stock,
     creator,
     category,
     subcategory,
@@ -146,11 +147,11 @@ router.post('/', async (req, res) => {
   try {
     const response = await client.query(
       `      
-      INSERT INTO products (creator ,name, description, images, price, category, subcategory)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      INSERT INTO products (creator ,name, description, images, price, category, subcategory, stock)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING id
       `,
-      [creator, name, description, images, price, category, subcategory]
+      [creator, name, description, images, price, category, subcategory, stock]
     );
 
     // add the product into that users list of products
