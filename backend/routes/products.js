@@ -115,10 +115,11 @@ router.get('/:id', async (req, res) => {
 router.get('/user/:id', async (req, res) => {
   try {
     const creator = req.params.id;
+    console.log('GETBYUSER', creator);
     const response = await client.query(
       `
-      SELECT p.id, name, description, images, price, category, subcategory, avg(rating) rating FROM products p
-      JOIN ratings r ON p.id = r.product
+      SELECT p.id, name, description, images, price, category, subcategory, p."createdAt", avg(rating) rating FROM products p
+      LEFT JOIN ratings r ON p.id = r.product
       WHERE p.creator = $1
       GROUP BY p.id
       `,
@@ -236,7 +237,6 @@ router.post('/:id', async (req, res) => {
     );
     // if a row comes back, it means the user rated that product before
     if (rated.rows[0]?.id) {
-      console.log(rated.rows);
       return res.status(400).send();
     }
 

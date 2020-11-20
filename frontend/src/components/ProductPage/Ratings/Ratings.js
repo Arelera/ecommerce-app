@@ -16,7 +16,7 @@ export default function Ratings({ ratings, productCreator }) {
 
   // don't show input if it's users product or if user rated before
   const [canSeeInput, setCanSeeInput] = useState(
-    productCreator !== user.id &&
+    productCreator !== user?.id &&
       user &&
       !ratings.find((rating) => rating.creator === user.id)
   );
